@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animated Box</title>
+    <style>
+        #box {
+            width: 100px;
+            height: 100px;
+            background-color: blue;
+            left: 0;
+            top: 50px;
+            position: absolute;
+        }
+    </style>
+</head>
+<body>
+    <div id="box"></div>
+
+    <script>
+
+        // seting step value
+        const step = 10; // in pixels
+
+        const doMove = () => {
+        // getting the box element
+        const box = document.getElementById('box')
+        // getting box's surrounding spaces
+        const boxPos = box.getBoundingClientRect();
+        
+        // Checking which side of the box is clear to move
+        const clearRight = ( (boxPos.right+step) <= window.innerWidth) ? true : false;
+        const clearBottom = ( (boxPos.bottom+step) <= window.innerHeight ) ? true : false;
+        const clearLeft = ( (boxPos.left-step) > 0 ) ? true : false;
+        const clearTop = ( (boxPos.top-step) > 0 ) ? true : false;
+        
+        // First time setting the direction of moving is bottom right
+        if(typeof(direction) === 'undefined') { direction = 'bottomRight'};
+        
+        /* do the move based on previous moving direction and 
+        clear side for next move 
+        */
+        switch(direction) {
+            case 'bottomRight':
+            if(clearBottom && clearRight) {
+                direction = 'bottomRight';
+                goBottomRight(box, boxPos);
+            } else if(!clearBottom && clearRight) {
+                direction = 'topRight';
+                goTopRight(box, boxPos);
+            } else if (clearBottom && !clearRight) {
+                direction = 'bottomLeft';
+                goBottomLeft(box, boxPos);
+            } else {
+                direction = 'topLeft';
+                goTopLeft(box, boxPos);
+            }
+            break;
+            
+            case 'bottomLeft':
+            if(clearBottom && clearLeft) {
+                direction = 'bottomLeft';
+                goBottomLeft(box, boxPos);
+            } else if(!clearBottom && clearLeft) {
+                direction = 'topLeft';
+                goTopLeft(box, boxPos);
+            } else if(clearBottom && !clearLeft) {
+                direction = 'bottomRight';
+                goBottomRight(box, boxPos);
+            } else {
+                direction = 'topRight';
+                goTopRight(box, boxPos);
+            }
+            break;
+            
+            case 'topRight':
+            if(clearTop && clearRight) {
+                direction = 'topRight';
+                goTopRight(box, boxPos);
+            } else if(!clearTop && clearRight) {
+                direction = 'bottomRight';
+                goBottomRight(box, boxPos);
+            } else if(clearTop && !clearRight) {
+                direction = 'topLeft';
+                goTopLeft(box, boxPos);
+            } else {
+                direction = 'bottomLeft';
+                goBottomLeft(box, boxPos);
+            }
+            break;
+            
+            
+            case 'topLeft':
+            if(clearTop && clearLeft) {
+                direction = 'topLeft';
+                goTopLeft(box, boxPos);
+            } else if(!clearTop && clearLeft) {
+                direction = 'bottomLeft';
+                goBottomLeft(box, boxPos);
+            } else if(clearTop && !clearLeft) {
+                direction = 'topRight';
+                goTopRight(box, boxPos);
+            } else {
+                direction = 'bottomRight';
+                goBottomRight(box, boxPos);
+            }
+            break;
+        }
+        }
+
+        // Going bottom right
+        const goBottomRight = (box, boxPos) => {
+        box.style.top = (boxPos.top + step) + 'px';
+        box.style.left = (boxPos.left + step) + 'px';
+        }
+
+        // Going top right
+        const goTopRight = (box, boxPos) => {
+        box.style.top = (boxPos.top - step) + 'px';
+        box.style.left = (boxPos.left + step) + 'px';
+        }
+
+        // Going bottom left
+        const goBottomLeft = (box, boxPos) => {
+        box.style.top = (boxPos.top + step) + 'px';
+        box.style.left = (boxPos.left - step) + 'px';
+        }
+
+        // Going top left
+        const goTopLeft = (box, boxPos) => {
+        box.style.top = (boxPos.top - step) + 'px';
+        box.style.left = (boxPos.left - step) + 'px';
+        }
+
+        setInterval(doMove, 1000);
+    </script>
+</body>
+</html>

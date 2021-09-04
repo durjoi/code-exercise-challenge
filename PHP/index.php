@@ -7,7 +7,7 @@ class InheritArrayObject extends ArrayObject {
     }
 
     public function displayAsTable() {
-        $table =  '<table>';
+        $table =  '<table border="1px"x>';
         $table .= '<tbody>';    
         $all_data = (array) $this;
         foreach ($all_data as $key => $value) {
@@ -23,9 +23,9 @@ class InheritArrayObject extends ArrayObject {
 }
 
 $obj = new InheritArrayObject();    
-$obj->Name = 'John Doe'; 
-$obj->Gender = 'Male'; 
-$obj->Religion = 'Islam'; 
-$obj->Prepared_For = 'ABC Org';
+$obj->name = 'Mehedi Hassan Durjoi'; 
+$obj->gender = 'Male'; 
+$obj->email = 'm.h.durjoi@gmail.com'; 
+$obj->website = 'www.durjoi.com';
 
 echo $obj->displayAsTable();    
